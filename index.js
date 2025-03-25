@@ -1,35 +1,24 @@
+require('dotenv').config()
 const express = require('express')
-const app = express()
 const morgan = require('morgan')
+const mongoose = require('mongoose')
+const Team = require("./models/team")
+const app = express()
 
 app.use(express.json())
 app.use(express.static('dist'))
 app.use(morgan('tiny'))
-
-let teams = [
-  {
-    "id": "1",
-    "content": "Winnipeg Jets",
-    "canadian": true
-  },
-  {
-    "id": "2",
-    "content": "Columbus Blue Jackets",
-    "canadian": false
-  },
-  {
-    "id": "3",
-    "content": "Montreal Canadiens",
-    "canadian": true
-  }
-]
 
 app.get('/', (request, response) => {
   response.send('<h1> Töttöröö <h1>')
 })
 
 app.get('/api/teams', (request, response) => {
-  response.json(teams)
+  Team
+    .find({})
+    .then(teams => {
+      response.json(teams)
+    })
 })
 
 app.get('/api/teams/:id', (request, response) => {
@@ -78,7 +67,7 @@ app.post('/api/teams', (request, response) => {
   response.json(team)
 })
 
-const PORT = process.env.PORT || 3001
+const PORT = process.env.PORT
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)
 })
