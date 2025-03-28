@@ -1,7 +1,7 @@
-const mongoose = require('mongoose')
+const mongoose = require("mongoose")
 
 if (process.argv.length < 3) {
-  console.log('Add password to command as argument')
+  console.log("Add password to command as argument")
   process.exit(1)
 }
 
@@ -13,7 +13,7 @@ const password = process.argv[2]
 
 const url = `mongodb+srv://juhokavekari:${password}@cluster0.11wdg.mongodb.net/teamApp?retryWrites=true&w=majority&appName=Cluster0`
 
-mongoose.set(`strictQuery`, false)
+mongoose.set("strictQuery", false)
 mongoose.connect(url)
 
 const teamSchema = new mongoose.Schema({
@@ -21,7 +21,7 @@ const teamSchema = new mongoose.Schema({
   canadian: Boolean,
 })
 
-const Team = mongoose.model('Team', teamSchema)
+const Team = mongoose.model("Team", teamSchema)
 
 Team.find({}).then(result =>{
   console.log(result)
@@ -31,13 +31,3 @@ Team.find({}).then(result =>{
   })
   mongoose.connection.close()
 })
-
-/*const team = new Team({
-  content: 'Miami Heat',
-  canadian: false,
-})
-
-team.save().then(result => {
-  console.log('Team saved to database')
-  mongoose.connection.close()
-})*/
